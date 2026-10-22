@@ -1,0 +1,192 @@
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router'
+
+function StudentEdit () {
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [course, setCourse] = useState('')
+  const [phone, setPhone] = useState('')
+
+  const [loading, setLoading] = useState(true)
+  const [pending, setPending] = useState(false)
+  const [error, setError] = useState('')
+
+  //const API_URL = 'http://localhost:3000/students';
+  const API_URL = 'http://localhost:8000/api/students'
+
+  useEffect(() => {
+    async function getStudentData () {
+      try {
+        setLoading(true)
+        setError('')
+
+        const response = await fetch(`${API_URL}/${id}`)
+
+        if (!response.ok) {
+          throw new Error('Student not found')
+        }
+
+        const data = await response.json()
+
+        setName(data.data.name || '')
+        setEmail(data.data.email || '')
+        setCourse(data.data.course || '')
+        setPhone(data.data.phone || '')
+      } catch (err) {
+        setError(err.message || 'Failed to fetch student data')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getStudentData()
+  }, [id])
+
+  async function updateStudent (e) {
+    e.preventDefault()
+
+    if (!name.trim() || !email.trim() || !course.trim() || !phone.trim()) {
+      setError('Please fill in all fields')
+      return
+    }
+
+    try {
+      setPending(true)
+      setError('')
+
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          course: course.trim(),
+          phone: phone.trim()
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update student')
+      }
+
+      alert('Student updated successfully!')
+      navigate('/')
+    } catch (err) {
+      setError(err.message || 'Unable to update student')
+    } finally {
+      setPending(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className='student-table-container'>
+        <p>Loading ...</p>
+      </div>
+    )
+  }
+
+  if (error === 'Student not found') {
+    return (
+      <div className='student-table-container'>
+        <p className='error-message'>{error}</p>
+        <button
+          type='button'
+          className='cancel-btn'
+          onClick={() => navigate('/')}
+        >
+          Back to Students
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className='student-table-container'>
+      <form className='student-form' onSubmit={updateStudent}>
+        <h1>Edit Student</h1>
+
+        <p className='form-description'>Update the student details below.</p>
+
+        {error && <p className='error-message'>{error}</p>}
+
+        <div className='form-group'>
+          <label htmlFor='name'>Name</label>
+          <input
+            id='name'
+            name='name'
+            type='text'
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder='Enter your name'
+            className='input-field'
+            required
+          />
+        </div>
+
+        <div className='form-group'>
+          <label htmlFor='email'>Email</label>
+          <input
+            id='email'
+            name='email'
+            type='email'
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder='Enter your email'
+            className='input-field'
+            required
+          />
+        </div>
+
+        <div className='form-group'>
+          <label htmlFor='course'>Course</label>
+          <input
+            id='course'
+            name='course'
+            type='text'
+            value={course}
+            onChange={e => setCourse(e.target.value)}
+            placeholder='Enter your course'
+            className='input-field'
+            required
+          />
+        </div>
+
+        <div className='form-group'>
+          <label htmlFor='phone'>Phone</label>
+          <input
+            id='phone'
+            name='phone'
+            type='text'
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+            placeholder='Enter your phone number'
+            className='input-field'
+            required
+          />
+        </div>
+
+        <div className='form-buttons'>
+          <button
+            type='button'
+            className='cancel-btn'
+            onClick={() => navigate('/')}
+            disabled={pending}
+          >
+            Cancel
+          </button>
+          <button type='submit' className='submit-btn' disabled={pending}>
+            {pending ? 'Updating...' : 'Update Student'}
+          </button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+export default StudentEdit
