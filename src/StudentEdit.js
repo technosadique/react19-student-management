@@ -9,6 +9,7 @@ function StudentEdit () {
   const [email, setEmail] = useState('')
   const [course, setCourse] = useState('')
   const [phone, setPhone] = useState('')
+  const [gender, setGender] = useState('')
 
   const [loading, setLoading] = useState(true)
   const [pending, setPending] = useState(false)
@@ -35,6 +36,7 @@ function StudentEdit () {
         setEmail(data.data.email || '')
         setCourse(data.data.course || '')
         setPhone(data.data.phone || '')
+        setGender(data.data.gender || '')
       } catch (err) {
         setError(err.message || 'Failed to fetch student data')
       } finally {
@@ -48,7 +50,13 @@ function StudentEdit () {
   async function updateStudent (e) {
     e.preventDefault()
 
-    if (!name.trim() || !email.trim() || !course.trim() || !phone.trim()) {
+    if (
+      !name.trim() ||
+      !email.trim() ||
+      !course.trim() ||
+      !phone.trim() ||
+      !gender
+    ) {
       setError('Please fill in all fields')
       return
     }
@@ -66,7 +74,8 @@ function StudentEdit () {
           name: name.trim(),
           email: email.trim(),
           course: course.trim(),
-          phone: phone.trim()
+          phone: phone.trim(),
+          gender
         })
       })
 
@@ -169,6 +178,46 @@ function StudentEdit () {
             className='input-field'
             required
           />
+        </div>
+
+        <div className='form-group'>
+          <label>Gender</label>
+
+          <div className='gender-options'>
+            <label>
+              <input
+                type='radio'
+                name='gender'
+                value='Male'
+                checked={gender === 'Male'}
+                onChange={e => setGender(e.target.value)}
+                required
+              />
+              Male
+            </label>
+
+            <label>
+              <input
+                type='radio'
+                name='gender'
+                value='Female'
+                checked={gender === 'Female'}
+                onChange={e => setGender(e.target.value)}
+              />
+              Female
+            </label>
+
+            <label>
+              <input
+                type='radio'
+                name='gender'
+                value='Other'
+                checked={gender === 'Other'}
+                onChange={e => setGender(e.target.value)}
+              />
+              Other
+            </label>
+          </div>
         </div>
 
         <div className='form-buttons'>
