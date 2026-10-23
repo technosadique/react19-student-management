@@ -84,7 +84,7 @@ function StudentEdit () {
       }
 
       alert('Student updated successfully!')
-      navigate('/')
+      navigate('/students')
     } catch (err) {
       setError(err.message || 'Unable to update student')
     } finally {
@@ -107,7 +107,7 @@ function StudentEdit () {
         <button
           type='button'
           className='cancel-btn'
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/students')}
         >
           Back to Students
         </button>
@@ -224,7 +224,7 @@ function StudentEdit () {
           <button
             type='button'
             className='cancel-btn'
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/students')}
             disabled={pending}
           >
             Cancel

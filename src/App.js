@@ -6,6 +6,7 @@ import { Routes, Route, useNavigate, NavLink } from 'react-router'
 
 import StudentAdd from './StudentAdd'
 import StudentEdit from './StudentEdit'
+import Dashboard from './Dashboard'
 
 const API_URL = 'http://localhost:8000/api/students'
 
@@ -126,7 +127,7 @@ function StudentList () {
                 <td>{student.email}</td>
                 <td>{student.phone}</td>
                 <td>{student.course}</td>
-                <td>
+                <td><div className="action-buttons">
                   <button
                     type='button'
                     className='edit-btn'
@@ -142,6 +143,7 @@ function StudentList () {
                   >
                     Delete
                   </button>
+                  </div>
                 </td>
               </tr>
             ))
@@ -155,7 +157,8 @@ function StudentList () {
 function App () {
   return (
     <Routes>
-      <Route path='/' element={<StudentList />} />
+      <Route path='/' element={<Dashboard />} />
+      <Route path='/students' element={<StudentList />} />
       <Route path='/add' element={<StudentAdd />} />
       <Route path='/edit/:id' element={<StudentEdit />} />
     </Routes>

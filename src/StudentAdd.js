@@ -52,7 +52,7 @@ function StudentAdd () {
         },
         body: JSON.stringify(data)
       })
-      navigate('/')
+      navigate('/students')
       alert('Student added successfully!')
       const result = await response.json()
       setIsValid(false)
@@ -167,7 +167,7 @@ function StudentAdd () {
           <button
             type='button'
             className='cancel-btn'
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/students')}
           >
             Cancel
           </button>

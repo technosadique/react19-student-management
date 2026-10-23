@@ -1,3 +1,8 @@
 C:\Users\sadik\react19>npx create-react-app student-management
 C:\Users\sadik\react19\student-management>nmp start
 C:\Users\sadik\react19\student-management>npx json-server db.json
+
+
+Laravel
+-----------
+project:laravel11/restapi
