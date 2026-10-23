@@ -12,6 +12,7 @@ const API_URL = 'http://localhost:8000/api/students'
 function StudentList () {
   const [studentdata, setStudentData] = useState([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
 
   const navigate = useNavigate()
 
@@ -68,13 +69,31 @@ function StudentList () {
     navigate(`/edit/${id}`)
   }
 
+  const filteredStudents = studentdata.filter(student =>
+    [student.name, student.email, student.phone, student.course].some(value =>
+      String(value ?? '')
+        .toLowerCase()
+        .includes(search.trim().toLowerCase())
+    )
+  )
+
   return (
     <div className='student-table-container'>
       <h1>Student Management</h1>
 
-      <NavLink to='/add' className='add-link'>
-        Add Student
-      </NavLink>
+      <div className='student-toolbar'>
+        <NavLink to='/add' className='add-link'>
+          Add Student
+        </NavLink>
+
+        <input
+          type='text'
+          className='search-input'
+          placeholder='Search by name, email, phone, or course'
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
 
       <table className='student-table'>
         <thead>
@@ -90,18 +109,18 @@ function StudentList () {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan='3' className='no-data'>
+              <td colSpan='5' className='no-data'>
                 Loading...
               </td>
             </tr>
-          ) : studentdata.length === 0 ? (
+          ) : filteredStudents.length === 0 ? (
             <tr>
-              <td colSpan='3' className='no-data'>
-                No students found
+              <td colSpan='5' className='no-data'>
+                {search ? 'No matching students found' : 'No students found'}
               </td>
             </tr>
           ) : (
-            studentdata.map(student => (
+            filteredStudents.map(student => (
               <tr key={student.id}>
                 <td>{student.name}</td>
                 <td>{student.email}</td>

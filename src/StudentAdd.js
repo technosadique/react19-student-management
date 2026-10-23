@@ -18,7 +18,7 @@ function StudentAdd () {
     const phone = form.phone.value
     const gender = form.gender.value
 
-  if (name && email && course && phone && gender) {
+    if (name && email && course && phone && gender) {
       setIsValid(true)
     } else {
       setIsValid(false)
@@ -126,42 +126,42 @@ function StudentAdd () {
             required
           />
         </div>
-        <div className="form-group">
-  <label>Gender</label>
+        <div className='form-group'>
+          <label>Gender</label>
 
-  <div className="gender-options">
-    <label>
-      <input
-        type="radio"
-        name="gender"
-        value="Male"
-        onChange={handleChange}
-        required
-      />
-      Male
-    </label>
+          <div className='gender-options'>
+            <label>
+              <input
+                type='radio'
+                name='gender'
+                value='Male'
+                onChange={handleChange}
+                required
+              />
+              Male
+            </label>
 
-    <label>
-      <input
-        type="radio"
-        name="gender"
-        value="Female"
-        onChange={handleChange}
-      />
-      Female
-    </label>
+            <label>
+              <input
+                type='radio'
+                name='gender'
+                value='Female'
+                onChange={handleChange}
+              />
+              Female
+            </label>
 
-    <label>
-      <input
-        type="radio"
-        name="gender"
-        value="Other"
-        onChange={handleChange}
-      />
-      Other
-    </label>
-  </div>
-</div>
+            <label>
+              <input
+                type='radio'
+                name='gender'
+                value='Other'
+                onChange={handleChange}
+              />
+              Other
+            </label>
+          </div>
+        </div>
 
         <div className='form-buttons'>
           <button
