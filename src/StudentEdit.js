@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
+import Header from './Header'
 
 function StudentEdit () {
   const { id } = useParams()
@@ -14,6 +15,11 @@ function StudentEdit () {
   const [loading, setLoading] = useState(true)
   const [pending, setPending] = useState(false)
   const [error, setError] = useState('')
+
+  const [user, setUser] = useState(null)
+  const [loggingOut, setLoggingOut] = useState(false)
+
+  const API_LOGOUT_URL = 'http://localhost:8000/api'
 
   //const API_URL = 'http://localhost:3000/students';
   const API_URL = 'http://localhost:8000/api/students'
@@ -116,124 +122,128 @@ function StudentEdit () {
   }
 
   return (
-    <div className='student-table-container'>
-      <form className='student-form' onSubmit={updateStudent}>
-        <h1>Edit Student</h1>
+    <div className='dashboard'>
+      <Header />
 
-        <p className='form-description'>Update the student details below.</p>
+      <main className='dashboard-content'>
+        <form className='student-form' onSubmit={updateStudent}>
+          <h1>Edit Student</h1>
 
-        {error && <p className='error-message'>{error}</p>}
+          <p className='form-description'>Update the student details below.</p>
 
-        <div className='form-group'>
-          <label htmlFor='name'>Name</label>
-          <input
-            id='name'
-            name='name'
-            type='text'
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder='Enter your name'
-            className='input-field'
-            required
-          />
-        </div>
+          {error && <p className='error-message'>{error}</p>}
 
-        <div className='form-group'>
-          <label htmlFor='email'>Email</label>
-          <input
-            id='email'
-            name='email'
-            type='email'
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder='Enter your email'
-            className='input-field'
-            required
-          />
-        </div>
-
-        <div className='form-group'>
-          <label htmlFor='course'>Course</label>
-          <input
-            id='course'
-            name='course'
-            type='text'
-            value={course}
-            onChange={e => setCourse(e.target.value)}
-            placeholder='Enter your course'
-            className='input-field'
-            required
-          />
-        </div>
-
-        <div className='form-group'>
-          <label htmlFor='phone'>Phone</label>
-          <input
-            id='phone'
-            name='phone'
-            type='text'
-            value={phone}
-            onChange={e => setPhone(e.target.value)}
-            placeholder='Enter your phone number'
-            className='input-field'
-            required
-          />
-        </div>
-
-        <div className='form-group'>
-          <label>Gender</label>
-
-          <div className='gender-options'>
-            <label>
-              <input
-                type='radio'
-                name='gender'
-                value='Male'
-                checked={gender === 'Male'}
-                onChange={e => setGender(e.target.value)}
-                required
-              />
-              Male
-            </label>
-
-            <label>
-              <input
-                type='radio'
-                name='gender'
-                value='Female'
-                checked={gender === 'Female'}
-                onChange={e => setGender(e.target.value)}
-              />
-              Female
-            </label>
-
-            <label>
-              <input
-                type='radio'
-                name='gender'
-                value='Other'
-                checked={gender === 'Other'}
-                onChange={e => setGender(e.target.value)}
-              />
-              Other
-            </label>
+          <div className='form-group'>
+            <label htmlFor='name'>Name</label>
+            <input
+              id='name'
+              name='name'
+              type='text'
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder='Enter your name'
+              className='input-field'
+              required
+            />
           </div>
-        </div>
 
-        <div className='form-buttons'>
-          <button
-            type='button'
-            className='cancel-btn'
-            onClick={() => navigate('/students')}
-            disabled={pending}
-          >
-            Cancel
-          </button>
-          <button type='submit' className='submit-btn' disabled={pending}>
-            {pending ? 'Updating...' : 'Update Student'}
-          </button>
-        </div>
-      </form>
+          <div className='form-group'>
+            <label htmlFor='email'>Email</label>
+            <input
+              id='email'
+              name='email'
+              type='email'
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder='Enter your email'
+              className='input-field'
+              required
+            />
+          </div>
+
+          <div className='form-group'>
+            <label htmlFor='course'>Course</label>
+            <input
+              id='course'
+              name='course'
+              type='text'
+              value={course}
+              onChange={e => setCourse(e.target.value)}
+              placeholder='Enter your course'
+              className='input-field'
+              required
+            />
+          </div>
+
+          <div className='form-group'>
+            <label htmlFor='phone'>Phone</label>
+            <input
+              id='phone'
+              name='phone'
+              type='text'
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+              placeholder='Enter your phone number'
+              className='input-field'
+              required
+            />
+          </div>
+
+          <div className='form-group'>
+            <label>Gender</label>
+
+            <div className='gender-options'>
+              <label>
+                <input
+                  type='radio'
+                  name='gender'
+                  value='Male'
+                  checked={gender === 'Male'}
+                  onChange={e => setGender(e.target.value)}
+                  required
+                />
+                Male
+              </label>
+
+              <label>
+                <input
+                  type='radio'
+                  name='gender'
+                  value='Female'
+                  checked={gender === 'Female'}
+                  onChange={e => setGender(e.target.value)}
+                />
+                Female
+              </label>
+
+              <label>
+                <input
+                  type='radio'
+                  name='gender'
+                  value='Other'
+                  checked={gender === 'Other'}
+                  onChange={e => setGender(e.target.value)}
+                />
+                Other
+              </label>
+            </div>
+          </div>
+
+          <div className='form-buttons'>
+            <button
+              type='button'
+              className='cancel-btn'
+              onClick={() => navigate('/students')}
+              disabled={pending}
+            >
+              Cancel
+            </button>
+            <button type='submit' className='submit-btn' disabled={pending}>
+              {pending ? 'Updating...' : 'Update Student'}
+            </button>
+          </div>
+        </form>
+      </main>
     </div>
   )
 }

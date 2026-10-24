@@ -7,6 +7,9 @@ import { Routes, Route, useNavigate, NavLink } from 'react-router'
 import StudentAdd from './StudentAdd'
 import StudentEdit from './StudentEdit'
 import Dashboard from './Dashboard'
+import Login from './Login'
+import Register from './Register'
+import Header from './Header'
 
 const API_URL = 'http://localhost:8000/api/students'
 
@@ -79,77 +82,81 @@ function StudentList () {
   )
 
   return (
-    <div className='student-table-container'>
-      <h1>Student Management</h1>
+    <div className='dashboard'>
+      <Header />
+      <main className='dashboard-content'>
+        <h1>Student Management</h1>
 
-      <div className='student-toolbar'>
-        <NavLink to='/add' className='add-link'>
-          Add Student
-        </NavLink>
+        <div className='student-toolbar'>
+          <NavLink to='/add' className='add-link'>
+            Add Student
+          </NavLink>
 
-        <input
-          type='text'
-          className='search-input'
-          placeholder='Search by name, email, phone, or course'
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-      </div>
+          <input
+            type='text'
+            className='search-input'
+            placeholder='Search by name, email, phone, or course'
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
 
-      <table className='student-table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Course</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {loading ? (
+        <table className='student-table'>
+          <thead>
             <tr>
-              <td colSpan='5' className='no-data'>
-                Loading...
-              </td>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Course</th>
+              <th>Action</th>
             </tr>
-          ) : filteredStudents.length === 0 ? (
-            <tr>
-              <td colSpan='5' className='no-data'>
-                {search ? 'No matching students found' : 'No students found'}
-              </td>
-            </tr>
-          ) : (
-            filteredStudents.map(student => (
-              <tr key={student.id}>
-                <td>{student.name}</td>
-                <td>{student.email}</td>
-                <td>{student.phone}</td>
-                <td>{student.course}</td>
-                <td><div className="action-buttons">
-                  <button
-                    type='button'
-                    className='edit-btn'
-                    onClick={() => editStudent(student.id)}
-                  >
-                    Edit
-                  </button>
+          </thead>
 
-                  <button
-                    type='button'
-                    className='delete-btn'
-                    onClick={() => deleteStudent(student.id)}
-                  >
-                    Delete
-                  </button>
-                  </div>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan='5' className='no-data'>
+                  Loading...
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : filteredStudents.length === 0 ? (
+              <tr>
+                <td colSpan='5' className='no-data'>
+                  {search ? 'No matching students found' : 'No students found'}
+                </td>
+              </tr>
+            ) : (
+              filteredStudents.map(student => (
+                <tr key={student.id}>
+                  <td>{student.name}</td>
+                  <td>{student.email}</td>
+                  <td>{student.phone}</td>
+                  <td>{student.course}</td>
+                  <td>
+                    <div className='action-buttons'>
+                      <button
+                        type='button'
+                        className='edit-btn'
+                        onClick={() => editStudent(student.id)}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        type='button'
+                        className='delete-btn'
+                        onClick={() => deleteStudent(student.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </main>
     </div>
   )
 }
@@ -157,7 +164,10 @@ function StudentList () {
 function App () {
   return (
     <Routes>
-      <Route path='/' element={<Dashboard />} />
+      {/* <Route path='/header' element={<Header />} /> */}
+      <Route path='/register' element={<Register />} />
+      <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/' element={<Login />} />
       <Route path='/students' element={<StudentList />} />
       <Route path='/add' element={<StudentAdd />} />
       <Route path='/edit/:id' element={<StudentEdit />} />

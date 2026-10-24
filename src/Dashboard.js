@@ -1,23 +1,17 @@
-import './App.css'
 import './StudentTable.css'
-
 import { Routes, Route, NavLink } from 'react-router'
 import StudentList from './App'
+import Header from './Header'
 
 function Dashboard () {
   return (
     <div className='dashboard'>
-      <header className='dashboard-header'>
-        <div>
-          <h1>Student Management</h1>
-          <p>Manage students and their information</p>
-        </div>
-      </header>
+      <Header />
 
       <main className='dashboard-content'>
         <h2>Dashboard</h2>
         <p className='dashboard-description'>
-          Welcome! Choose an option to get started.
+          Welcome! Manage your student records below.
         </p>
 
         <NavLink to='/students' className='dashboard-card'>

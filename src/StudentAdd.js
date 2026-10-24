@@ -1,7 +1,7 @@
 import { useActionState, useState } from 'react'
 import { useNavigate } from 'react-router'
 import './StudentTable.css'
-
+import Header from './Header'
 function StudentAdd () {
   const [isValid, setIsValid] = useState(false)
   const [success, setsuccess] = useState(false)
@@ -66,8 +66,11 @@ function StudentAdd () {
   const [data, action, pending] = useActionState(handleSubmit, null)
 
   return (
-    <div className='student-table-container'>
-      <form className='student-form' action={action}>
+    <div className='dashboard'>
+      <Header />
+      <main className='dashboard-content'>
+
+        <form className='student-form' action={action}>
         {success && (
           <p className='success-message'>Student added successfully!</p>
         )}
@@ -180,6 +183,8 @@ function StudentAdd () {
           </button>
         </div>
       </form>
+      </main>
+      
     </div>
   )
 }
